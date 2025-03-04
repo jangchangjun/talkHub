@@ -5,7 +5,7 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 
 public class UserRepository {
-    public boolean create(String id, String password, String nickname, String gender, int birth) {
+    private boolean create(String id, String password, String nickname, String gender, int birth) {
         boolean result = false;
         try {
             Class.forName("com.mysql.cj.jdbc.Driver");
