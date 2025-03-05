@@ -108,6 +108,9 @@
         <c:if test="${idError != null}">
             <p class="error">${idError}</p>
         </c:if>
+        <c:if test="${idUniqueError != null}">
+            <p class="error">${idUniqueError}</p>
+        </c:if>
 
         <!-- 비밀번호 -->
         <label for="password">비밀번호</label>

@@ -4,30 +4,52 @@
 <head>
     <title>TalkHub</title>
     <style>
+        /* 기본 페이지 스타일 */
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            background-color: #f4f6f9;
+        }
+
         /* 상단 바 스타일 */
         .header {
             display: flex;
             justify-content: space-between; /* 왼쪽과 오른쪽에 요소를 배치 */
             align-items: center; /* 세로 중앙 정렬 */
-            padding: 10px;
-            background-color: #f8f9fa;
-        }
-
-        /* 네비게이션 바 스타일 */
-        .navbar a {
-            margin-left: 15px; /* 링크 간격 */
-            text-decoration: none;
-            color: #007bff;
-        }
-
-        .navbar a:hover {
-            text-decoration: underline;
+            padding: 15px 30px;
+            background-color: #007bff;
+            color: white;
         }
 
         /* h1 스타일 */
         h1 {
-            margin: 0; /* 기본 여백 제거 */
-            color: #333;
+            margin: 0;
+            font-size: 28px;
+            font-weight: bold;
+        }
+
+        /* 네비게이션 바 스타일 */
+        .navbar a {
+            margin-left: 20px;
+            text-decoration: none;
+            color: white;
+            font-size: 16px;
+            font-weight: 500;
+            transition: color 0.3s ease;
+        }
+
+        .navbar a:hover {
+            color: #ffd700;
+        }
+
+        /* 로그인/회원가입/마이페이지 버튼 hover 효과 */
+        .navbar a:active {
+            color: #ff6347;
+        }
+
+        /* 하단에 마진을 추가하여 공간 확보 */
+        body > .header {
+            margin-bottom: 20px;
         }
     </style>
 </head>
@@ -36,18 +58,18 @@
 <!-- 상단에 위치하는 h1과 navbar를 포함하는 div -->
 <div class="header">
     <!-- h1은 왼쪽에 위치 -->
-    <h1>talkhub</h1>
+    <h1>TalkHub</h1>
 
     <!-- 상단 오른쪽에 위치하는 네비게이션 바 -->
     <div class="navbar">
         <c:choose>
             <c:when test="${authentication}">
-                <a href="${pageContext.request.contextPath}/user/login">로그인</a>
-                <a href="${pageContext.request.contextPath}/user/join">회원가입</a>
+                <a href="#">마이페이지</a>
+                <a href="${pageContext.request.contextPath}/user/logout">로그아웃</a>
             </c:when>
             <c:otherwise>
-                <a href="">마이페이지</a>
-                <a href="">로그아웃</a>
+                <a href="${pageContext.request.contextPath}/user/login">로그인</a>
+                <a href="${pageContext.request.contextPath}/user/join">회원가입</a>
             </c:otherwise>
         </c:choose>
     </div>
