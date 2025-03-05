@@ -21,7 +21,8 @@
     </p>
     <label>비밀번호</label>
     <p>
-        <label>ㅜ
+        <label>
+            <input type="password" name="password"/>
         </label>
     </p>
     <button type="submit">확인</button>

@@ -1,6 +1,7 @@
 package org.jun.talkhub.model.dao;
 
 import org.jun.talkhub.model.vo.User;
+import org.jun.talkhub.util.ConnectionFactory;
 
 import java.sql.*;
 import java.util.Date;
@@ -9,9 +10,7 @@ public class UserDao {
     public boolean create(String id, String password, String nickname, String gender, int birth) {
         boolean result = false;
         try {
-            Class.forName("com.mysql.cj.jdbc.Driver");
-            Connection conn = DriverManager.getConnection("jdbc:mysql://database.cb4ykygcod66.ap-northeast-2.rds.amazonaws.com:3306/talkhub",
-                    "admin", "jang7890!");
+            Connection conn = ConnectionFactory.open();
 
             PreparedStatement ps = conn.prepareStatement("insert into users values (?,?,?,?,?,now())");
             ps.setString(1, id);
@@ -34,9 +33,7 @@ public class UserDao {
     public User findById(String specificId){
         User one = null;
         try {
-            Class.forName("com.mysql.cj.jdbc.Driver");
-            Connection conn = DriverManager.getConnection("jdbc:mysql://database.cb4ykygcod66.ap-northeast-2.rds.amazonaws.com:3306/talkhub",
-                    "admin", "jang7890!");
+           Connection conn = ConnectionFactory.open();
 
             PreparedStatement ps = conn.prepareStatement("select * from users where id = ?");
             ps.setString(1, specificId);
@@ -56,6 +53,8 @@ public class UserDao {
         } catch (ClassNotFoundException | SQLException e) {
             throw new RuntimeException(e);
 
+        } catch (Exception e) {
+            throw new RuntimeException(e);
         }
 
         return one;
