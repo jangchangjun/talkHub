@@ -64,7 +64,7 @@
     <div class="navbar">
         <c:choose>
             <c:when test="${authentication}">
-                <a href="#">마이페이지</a>
+                <a href="${pageContext.request.contextPath}/user/profile">마이페이지</a>
                 <a href="${pageContext.request.contextPath}/user/logout">로그아웃</a>
             </c:when>
             <c:otherwise>

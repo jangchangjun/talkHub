@@ -3,7 +3,7 @@ package org.jun.talkhub.model.vo;
 import java.util.Date;
 
 public class User {
-    private static String id;
+    private String id;
     private String password;
     private String nickname;
     private String gender;
@@ -22,7 +22,7 @@ public class User {
         this.createdAt = createdAt;
     }
 
-    public static String getId() {
+    public String getId() {
         return id;
     }
 
