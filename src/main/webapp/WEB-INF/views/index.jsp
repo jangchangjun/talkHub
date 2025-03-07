@@ -66,10 +66,13 @@
             <c:when test="${authentication}">
                 <a href="${pageContext.request.contextPath}/user/profile">마이페이지</a>
                 <a href="${pageContext.request.contextPath}/user/logout">로그아웃</a>
+                <a href="${pageContext.request.contextPath}/post/write">글작성</a>
+                <a href="${pageContext.request.contextPath}/post/list">글목록</a>
             </c:when>
             <c:otherwise>
                 <a href="${pageContext.request.contextPath}/user/login">로그인</a>
                 <a href="${pageContext.request.contextPath}/user/join">회원가입</a>
+                <a href="${pageContext.request.contextPath}/post/list">글목록</a>
             </c:otherwise>
         </c:choose>
     </div>
