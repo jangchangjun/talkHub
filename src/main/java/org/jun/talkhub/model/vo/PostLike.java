@@ -9,13 +9,9 @@ import java.util.Date;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class User {
-    private String id;
-    private String password;
-    private String nickname;
-    private String gender;
-    private int birth;
+public class PostLike {
+    private int id;
+    private String userId;
+    private int postId;
     private Date createdAt;
-
-
 }

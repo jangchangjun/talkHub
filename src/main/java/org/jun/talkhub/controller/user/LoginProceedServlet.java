@@ -29,13 +29,22 @@ public class LoginProceedServlet extends HttpServlet {
                 HttpSession session = req.getSession();
                 session.setAttribute("user", found);
 
-                if (session.getAttribute("callback") == null){
-                    resp.sendRedirect(req.getContextPath()+"/index");
-                }else {
+                if (session.getAttribute("callback")!=null){
                     String callback = (String)session.getAttribute("callback");
                     session.removeAttribute("callback");
                     resp.sendRedirect(callback);
                 }
+                if (session.getAttribute("read")!=null){
+                    String read = (String) session.getAttribute("read");
+                    session.removeAttribute("read");
+                    resp.sendRedirect(read);
+                }
+                if (session.getAttribute("write")!=null){
+                    String write = (String) session.getAttribute("write");
+                    session.removeAttribute("write");
+                    resp.sendRedirect(write);
+                }
+
             }else {
                 req.getRequestDispatcher("/WEB-INF/views/user/login-fail.jsp").forward(req,resp);
             }

@@ -14,15 +14,22 @@ import java.io.IOException;
 public class ReadServlet extends HttpServlet {
     @Override
     protected void service(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        PostDao postDao = new PostDao();
         int srchId = Integer.parseInt(req.getParameter("id"));
 
-        PostDao postDao = new PostDao();
+        boolean r = postDao.increaseViewById(srchId);
         Post post = postDao.selectByCode(srchId);
 
-        // 결과가 있으면, pokemon 객체를 request에 저장하고, JSP로 포워딩
+        if (req.getSession().getAttribute("user") == null) {
+            req.getSession().setAttribute("read", req.getContextPath() + "/post/read?id="+srchId);
+            resp.sendRedirect(req.getContextPath() + "/user/login");
+            return;
+        }
+
         if (post != null) {
             req.setAttribute("post", post);
             req.getRequestDispatcher("/WEB-INF/views/post/read.jsp").forward(req, resp);
         }
+
     }
 }

@@ -69,15 +69,20 @@
     식별 번호 ${param.id}의 조회결과입니다.
   </p>
   <hr>
-  <h3>${post.getTitle()}</h3>
-  <p>작성자: ${post.getWriterID()}</p>
-  <p>카테고리: ${post.getCategory()}</p>
+  <h3>${post.title}</h3>
+  <p>작성자: ${post.writerId}</p>
+  <p>카테고리: ${post.category}</p>
   <hr>
   <h3>글 내용</h3>
-  <p class="post-text">${post.getText()}</p>
+  <p class="post-text">${post.text}</p>
+
+  조회수 : ${post.views} 좋아요 : ${post.likes}
 </div>
 
-<!-- 목록 버튼 -->
+<a href="${pageContext.request.contextPath}/post/like-proceed?id=${param.id}">
+  <button type="button">좋아요</button>
+</a>
+
 <footer>
   <a href="${pageContext.request.contextPath}/post/list">목록</a>
 </footer>

@@ -73,6 +73,7 @@
                 <a href="${pageContext.request.contextPath}/user/login">로그인</a>
                 <a href="${pageContext.request.contextPath}/user/join">회원가입</a>
                 <a href="${pageContext.request.contextPath}/post/list">글목록</a>
+                <a href="${pageContext.request.contextPath}/user/profile">마이페이지</a>
             </c:otherwise>
         </c:choose>
     </div>
