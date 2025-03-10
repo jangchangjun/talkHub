@@ -19,7 +19,7 @@ public class PostLikeDao {
 
             PreparedStatement ps = conn.prepareStatement("insert into post_likes values (null,?,?,now())");
             ps.setString(1, one.getUserId());
-            ps.setInt(2, one.getId());
+            ps.setInt(2, one.getPostId());
 
 
             int r = ps.executeUpdate();
@@ -56,26 +56,28 @@ public class PostLikeDao {
         return postLikes;
     }
 
-    public PostLike findById(String specificId) {
-        PostLike one = null;
+    public List<PostLike> findByUserId(String userId) {
+        List<PostLike> likes = new ArrayList<>();
         try {
             Connection conn = ConnectionFactory.open();
             PreparedStatement ps = conn.prepareStatement("select * from post_likes where user_id = ?");
-            ps.setString(1, specificId);  // user_id를 사용
+            ps.setString(1, userId);  // user_id를 사용
             ResultSet rs = ps.executeQuery();
 
-            if (rs.next()) {
+            while (rs.next()) {
                 int id = rs.getInt("id");
-                String userId = rs.getString("user_id");
+                String userIdFromDb = rs.getString("user_id");
                 int postId = rs.getInt("post_id");
                 Date createdAt = rs.getDate("created_at");
 
-                one = new PostLike(id, userId, postId, createdAt);
+                PostLike like = new PostLike(id, userIdFromDb, postId, createdAt);
+                likes.add(like);
             }
         } catch (Exception e) {
-            e.printStackTrace();  // 예외 처리에서 콘솔에 오류 출력
+            e.printStackTrace();
         }
-        return one;
+        return likes;
     }
+
 
 }

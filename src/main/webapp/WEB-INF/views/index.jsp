@@ -1,5 +1,6 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
 <html>
 <head>
     <title>TalkHub</title>
@@ -9,14 +10,15 @@
             font-family: Arial, sans-serif;
             margin: 0;
             background-color: #f4f6f9;
+            box-sizing: border-box; /* padding과 margin 포함한 크기 계산 */
         }
 
         /* 상단 바 스타일 */
         .header {
             display: flex;
-            justify-content: space-between; /* 왼쪽과 오른쪽에 요소를 배치 */
+            justify-content: space-between; /* 왼쪽과 오른쪽에 요소 배치 */
             align-items: center; /* 세로 중앙 정렬 */
-            padding: 15px 30px;
+            padding: 15px 10px; /* 상단 바 패딩 조정 */
             background-color: #007bff;
             color: white;
         }
@@ -24,16 +26,22 @@
         /* h1 스타일 */
         h1 {
             margin: 0;
-            font-size: 28px;
+            font-size: 24px; /* 기본 폰트 크기 조정 */
             font-weight: bold;
         }
 
         /* 네비게이션 바 스타일 */
+        .navbar {
+            display: flex;
+            justify-content: flex-end;
+            flex-wrap: wrap; /* 작은 화면에서 항목이 줄바꿈 되도록 설정 */
+        }
+
         .navbar a {
-            margin-left: 20px;
+            margin-left: 15px;
             text-decoration: none;
             color: white;
-            font-size: 16px;
+            font-size: 14px; /* 기본 폰트 크기 설정 */
             font-weight: 500;
             transition: color 0.3s ease;
         }
@@ -42,7 +50,6 @@
             color: #ffd700;
         }
 
-        /* 로그인/회원가입/마이페이지 버튼 hover 효과 */
         .navbar a:active {
             color: #ff6347;
         }
@@ -50,6 +57,22 @@
         /* 하단에 마진을 추가하여 공간 확보 */
         body > .header {
             margin-bottom: 20px;
+        }
+
+        /* 미디어 쿼리 추가 - 화면 크기가 작은 경우 */
+        @media (max-width: 600px) {
+            h1 {
+                font-size: 20px; /* 모바일에서는 제목 크기를 작게 */
+            }
+
+            .navbar a {
+                font-size: 12px; /* 모바일에서 링크 폰트 크기 조정 */
+                margin-left: 10px;
+            }
+
+            .header {
+                padding: 10px; /* 상단 바 패딩을 줄여서 공간 확보 */
+            }
         }
     </style>
 </head>
