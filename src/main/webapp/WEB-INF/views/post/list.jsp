@@ -1,5 +1,6 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
 <html>
 <head>
     <title>TalkHub - 전체 글</title>
@@ -14,22 +15,28 @@
             justify-content: center;
             align-items: center;
             height: 100vh;
+            overflow-x: hidden; /* 가로 스크롤 방지 */
+            box-sizing: border-box;
         }
 
         /* 콘텐츠 박스 스타일 */
         .content-container {
             background-color: #fff;
-            padding: 30px;
+            padding: 20px;
             border-radius: 8px;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-            width: 500px;
+            width: 90%; /* 화면의 90% 너비로 설정 */
+            max-width: 500px; /* 최대 너비는 500px로 제한 */
             text-align: left;
+            box-sizing: border-box;
         }
 
         /* 제목 스타일 */
         h2 {
             color: #333;
             margin-bottom: 20px;
+            text-align: center;
+            font-size: 24px;
         }
 
         /* 글 목록 스타일 */
@@ -68,6 +75,21 @@
 
         footer a:hover {
             text-decoration: underline;
+        }
+
+        /* 미디어 쿼리 추가 - 작은 화면에서 스타일 조정 */
+        @media (max-width: 600px) {
+            h2 {
+                font-size: 20px;
+            }
+
+            ul li a {
+                font-size: 14px;
+            }
+
+            footer a {
+                font-size: 12px;
+            }
         }
     </style>
 </head>

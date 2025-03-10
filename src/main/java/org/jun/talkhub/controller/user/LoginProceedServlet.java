@@ -21,23 +21,40 @@ public class LoginProceedServlet extends HttpServlet {
         UserDao userDao = new UserDao();
         User found = userDao.findById(id);
 
-        if (found == null){
+        if (found == null) {
             req.setAttribute("error", "사용자 아이디 또는 비밀번호가 일치하지 않습니다.");
-            req.getRequestDispatcher("/WEB-INF/views/user/login-fail.jsp").forward(req,resp);
-        }else {
-            if (found.getPassword().equals(password)){
+            req.getRequestDispatcher("/WEB-INF/views/user/login-fail.jsp").forward(req, resp);
+        } else {
+            if (found.getPassword().equals(password)) {
                 HttpSession session = req.getSession();
                 session.setAttribute("user", found);
 
-                if (session.getAttribute("callback") == null){
-                    resp.sendRedirect(req.getContextPath()+"/index");
-                }else {
-                    String callback = (String)session.getAttribute("callback");
+                // 응답을 커밋하기 전에 리디렉션 처리
+                String callback = (String) session.getAttribute("callback");
+                if (callback != null) {
                     session.removeAttribute("callback");
                     resp.sendRedirect(callback);
+                    return;
                 }
-            }else {
-                req.getRequestDispatcher("/WEB-INF/views/user/login-fail.jsp").forward(req,resp);
+
+                String read = (String) session.getAttribute("read");
+                if (read != null) {
+                    session.removeAttribute("read");
+                    resp.sendRedirect(read);
+                    return;
+                }
+
+                String write = (String) session.getAttribute("write");
+                if (write != null) {
+                    session.removeAttribute("write");
+                    resp.sendRedirect(write);
+                    return;
+                }
+
+                // 아무 조건도 맞지 않으면 기본 페이지로 리디렉션
+                resp.sendRedirect(req.getContextPath() + "/index");
+            } else {
+                req.getRequestDispatcher("/WEB-INF/views/user/login-fail.jsp").forward(req, resp);
             }
         }
     }

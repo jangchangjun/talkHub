@@ -7,44 +7,41 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.jun.talkhub.model.dao.PostDao;
 import org.jun.talkhub.model.dao.PostLikeDao;
-import org.jun.talkhub.model.vo.Post;
 import org.jun.talkhub.model.vo.PostLike;
 import org.jun.talkhub.model.vo.User;
 
 import java.io.IOException;
 import java.util.List;
 
-@WebServlet("/post/read")
-public class ReadServlet extends HttpServlet {
+@WebServlet("/post/like-proceed")
+public class LikeProceedServlet extends HttpServlet {
     @Override
     protected void service(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        PostDao postDao = new PostDao();
+
         int srchId = Integer.parseInt(req.getParameter("id"));
-
-        boolean r = postDao.increaseViewById(srchId);
-        Post post = postDao.selectByCode(srchId);
-
-        if (req.getSession().getAttribute("user") == null) {
-            req.getSession().setAttribute("read", req.getContextPath() + "/post/read?id="+srchId);
-            resp.sendRedirect(req.getContextPath() + "/user/login");
-            return;
-        }
-
-
-        User requester = (User) req.getSession().getAttribute("user");
         PostLikeDao postLikeDao = new PostLikeDao();
+        User requester = (User) req.getSession().getAttribute("user");
         List<PostLike> likes = postLikeDao.findByUserId(requester.getId());
 
         boolean alreadyLikes = false;
         for (PostLike like : likes) {
             if (like.getPostId() == srchId) {
                 alreadyLikes = true;
+                break;  // 이미 좋아요를 눌렀으면 더 이상 반복문을 돌 필요 없음
             }
-        }if (post != null) {
-            req.setAttribute("post", post);
-            req.setAttribute("already", alreadyLikes);
-            req.getRequestDispatcher("/WEB-INF/views/post/read.jsp").forward(req, resp);
         }
 
+        if (!alreadyLikes) {
+            PostDao dao = new PostDao();
+            dao.increaseLikeById(srchId);  // 좋아요 수 증가
+
+            PostLike log = PostLike.builder()
+                    .userId(requester.getId())
+                    .postId(srchId)
+                    .build();
+            postLikeDao.create(log);  // 새로운 좋아요 기록 추가
+        }
+
+        resp.sendRedirect(req.getContextPath() + "/post/read?id=" + srchId);
     }
 }

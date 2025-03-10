@@ -16,7 +16,7 @@ public class PostDao {
 
             PreparedStatement ps = conn.prepareStatement("insert into posts values (null,?,?,?,?,0,0,now(),now())");
 
-            ps.setString(1,writerId);
+            ps.setString(1, writerId);
             ps.setString(2, title);
             ps.setString(3, category);
             ps.setString(4, text);
@@ -31,7 +31,8 @@ public class PostDao {
         }
         return result;
     }
-    public List<Post> selectAll(){
+
+    public List<Post> selectAll() {
         List<Post> posts = new ArrayList<>();
 
         try {
@@ -51,7 +52,7 @@ public class PostDao {
                 Date writerAt = rs.getDate("writer_at");
                 Date modifiedAt = rs.getDate("modified_at");
 
-                Post p = new Post(id, writerId, title, category, text, views, likes,writerAt,modifiedAt);
+                Post p = new Post(id, writerId, title, category, text, views, likes, writerAt, modifiedAt);
                 posts.add(p);
             }
             conn.close();
@@ -61,7 +62,7 @@ public class PostDao {
         return posts;
     }
 
-    public Post selectByCode(int id){
+    public Post selectByCode(int id) {
         Post post = null;
         try {
             Connection conn = ConnectionFactory.open();
@@ -80,7 +81,7 @@ public class PostDao {
                 Date writerAt = rs.getDate("writer_at");
                 Date modifiedAt = rs.getDate("modified_at");
 
-                post = new Post(id, writerId, title, category, text, views, likes,writerAt,modifiedAt);
+                post = new Post(id, writerId, title, category, text, views, likes, writerAt, modifiedAt);
             }
         } catch (Exception e) {
             throw new RuntimeException(e);
@@ -89,6 +90,41 @@ public class PostDao {
         return post;
     }
 
-}
+    public boolean increaseViewById(int postID) {
+        boolean result = false;
 
+        try (Connection conn = ConnectionFactory.open()) {
+            PreparedStatement ps = conn.prepareStatement("update posts set views = views+1 where id =?" );
+            ps.setInt(1,postID);
+
+            int r = ps.executeUpdate();
+            if (r>0){
+                result = true;
+            }
+
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+
+        return result;
+    }
+    public boolean increaseLikeById(int postID) {
+        boolean result = false;
+
+        try (Connection conn = ConnectionFactory.open()) {
+            PreparedStatement ps = conn.prepareStatement("update posts set likes = likes+1 where id =?" );
+            ps.setInt(1,postID);
+
+            int r = ps.executeUpdate();
+            if (r>0){
+                result = true;
+            }
+
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+
+        return result;
+    }
+}
 

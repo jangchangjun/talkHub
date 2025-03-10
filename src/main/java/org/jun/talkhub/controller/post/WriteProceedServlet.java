@@ -16,16 +16,23 @@ public class WriteProceedServlet extends HttpServlet {
     protected void service(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         PostDao postDao = new PostDao();
 
-        User user =  (User)req.getSession().getAttribute("user");
+        if (req.getSession().getAttribute("user") == null) {
+            req.getSession().setAttribute("write", req.getContextPath() + "/post/write");
+            resp.sendRedirect(req.getContextPath() + "/user/login");
+            return;
+        }
+
+        User user = (User) req.getSession().getAttribute("user");
         String writerId = user.getId();
         String title = req.getParameter("title");
         String category = req.getParameter("category");
         String text = req.getParameter("text");
 
         boolean r = postDao.create(writerId, title, category, text);
+
         if (r) {
             resp.sendRedirect(req.getContextPath() + "/post/list");
-        }
 
+        }
     }
 }
